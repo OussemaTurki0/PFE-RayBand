@@ -32,7 +32,7 @@ export default function GPSPage({ pairedDevices }) {
   // Fetch current location
   useEffect(() => {
     if (Platform.OS === "web") {
-      // Web: try using browser geolocation
+      //browser geolocation
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (pos) => {
@@ -62,7 +62,7 @@ export default function GPSPage({ pairedDevices }) {
     Linking.openURL(url);
   };
 
-  // Web Map using Google Maps JS API
+  // API
   useEffect(() => {
     if (Platform.OS === "web" && currentLocation) {
       if (!window.google) {
