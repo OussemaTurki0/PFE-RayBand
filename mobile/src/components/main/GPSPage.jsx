@@ -67,7 +67,7 @@ export default function GPSPage({ pairedDevices }) {
     if (Platform.OS === "web" && currentLocation) {
       if (!window.google) {
         const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyC27bIMWj0qV0ddANcCi31sMmmLC1bjM74`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=*****************************`;
         script.async = true;
         script.onload = () => initWebMap();
         document.body.appendChild(script);
