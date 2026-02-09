@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "name": "Ray-Band 2.0",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/logo1.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSLocationWhenInUseUsageDescription": "We need your location to show your position on the map",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "We need your location to show your position on the map at all times"
+      },
+      "bundleIdentifier": "create.CreateExpoEnvironment"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/logo2.png",
+        "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "FOREGROUND_SERVICE"
+      ],
+      "package": "create.CreateExpoEnvironment"
+    },
+    "plugins": [
+      ["expo-router", { "sitemap": false }],
+      ["expo-splash-screen", { "image": "./assets/images/logo2.png", "imageWidth": 200, "resizeMode": "contain" }],
+      "expo-audio",
+      ["expo-build-properties", { "ios": { "useFrameworks": "static" } }],
+      "expo-video"
+    ],
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/images/logo1.png"
+    },
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": { "origin": false }
+    },
+    "runtimeVersion": "1.0.0"
+  }
+}
