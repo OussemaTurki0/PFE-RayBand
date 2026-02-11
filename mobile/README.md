@@ -51,6 +51,9 @@ npx expo start --tunnel
 cd modals 
 python -m uvicorn server:app --reload --host 0.0.0.0 --port 8000
 
+if needed :
+ngrok http 8000
+
 📖 Notes
 
 This project was created for learning and development purposes related to PFE.
