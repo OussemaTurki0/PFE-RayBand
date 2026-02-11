@@ -14,7 +14,6 @@ import {
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function ProfilePage() {
@@ -51,7 +50,7 @@ export default function ProfilePage() {
   return (
     <ScrollView
       style={styles.container}
-      contentContainerStyle={{ paddingBottom: 90 }}
+      contentContainerStyle={{ paddingBottom: 90 }} // padding
     >
       {/* Avatar Header */}
       <View style={styles.avatarContainer}>
@@ -65,7 +64,7 @@ export default function ProfilePage() {
 
       {/* Account & Profile */}
       <Text style={styles.sectionTitle}>Account & Profile</Text>
-      {renderItem("editInfo", "user", "Edit personal information including name, email, and phone number")}
+      {renderItem("editInfo", "user", "Edit personal information ")}
       {renderItem("profilePic", "camera", "Update your profile picture")}
       {renderItem("password", "key", "Change or reset your password")}
       {renderItem("linked", "link", "Connect Google, Apple, or social accounts")}
@@ -81,8 +80,8 @@ export default function ProfilePage() {
 
       {/* Privacy & Security */}
       <Text style={styles.sectionTitle}>Privacy & Security</Text>
-      {renderItem("permissions", "unlock", "Manage camera, location, and microphone permissions")}
-      {renderItem("2fa", "shield-alt", "Enable two-factor authentication for extra security")}
+      {renderItem("permissions", "unlock", "Manage permissions")}
+      {renderItem("2fa", "shield-alt", "Enable two-factor authentication")}
       {renderItem("dataShare", "share-alt", "Control what data you share")}
       {renderItem("blocked", "ban", "Manage blocked users or content")}
       {renderItem("lockApp", "lock", "Enable app lock using PIN or biometrics", true, appLock, setAppLock)}

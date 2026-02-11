@@ -38,7 +38,7 @@ export default function LoginScreen({ onLogin, goToSignup }) {
   ).current;
 
   useEffect(() => {
-    loadUsers(); // load users from AsyncStorage
+    loadUsers();
 
     bubbles.forEach((bubble, i) => {
       const animate = () => {
@@ -79,7 +79,7 @@ export default function LoginScreen({ onLogin, goToSignup }) {
     });
   }, []);
 
-  // Load users from AsyncStorage
+// load users from AsyncStorage
   const loadUsers = async () => {
     try {
       const storedUsers = await AsyncStorage.getItem("users");
@@ -90,7 +90,7 @@ export default function LoginScreen({ onLogin, goToSignup }) {
     }
   };
 
-  // Save a new user (for testing or signup)
+  // Save
   const saveUser = async (newUser) => {
     try {
       const updated = [...users, newUser];
@@ -101,7 +101,7 @@ export default function LoginScreen({ onLogin, goToSignup }) {
     }
   };
 
-  // Delete user by email
+  // Delete
   const deleteUser = async (emailToDelete) => {
     try {
       const filtered = users.filter((u) => u.email !== emailToDelete);

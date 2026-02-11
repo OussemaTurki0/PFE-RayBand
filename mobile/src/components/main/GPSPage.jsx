@@ -81,7 +81,7 @@ export default function GPSPage({ pairedDevices }) {
           zoom: 18,
         });
 
-        // blinking marker
+        // blinking 
         const markerDiv = document.createElement("div");
         markerDiv.style.width = "20px";
         markerDiv.style.height = "20px";
@@ -108,7 +108,7 @@ export default function GPSPage({ pairedDevices }) {
     }
   }, [currentLocation]);
 
-  // Mobile MapView & Marker
+  // MapView
   const MapView = MapViewModule?.default;
   const Marker = MapViewModule?.Marker;
 

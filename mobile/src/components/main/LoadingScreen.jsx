@@ -1,4 +1,4 @@
-// components/LoadingScreen.tsx
+
 import React, { useEffect, useState, useRef } from "react";
 import { SafeAreaView, View, Text, Animated, Easing, StatusBar, StyleSheet, Image } from "react-native";
 import Svg, { Polyline, Defs, LinearGradient, Stop, Rect } from "react-native-svg";
@@ -7,18 +7,17 @@ export default function LoadingScreen() {
   const [dotIndex, setDotIndex] = useState(0);
   const dotsArray = ["", ".", "..", "..."];
 
-  // Heartbeat anim
   const strokeAnim = useRef(new Animated.Value(1000)).current;
   const fadeInAnim = useRef(new Animated.Value(0)).current;
   const fadeOutAnim = useRef(new Animated.Value(-1.2)).current;
 
   useEffect(() => {
-    // Dot anim
+    
     const interval = setInterval(() => {
       setDotIndex((prev) => (prev + 1) % dotsArray.length);
     }, 500);
 
-    // Heartbeat line draw
+    
     Animated.loop(
       Animated.timing(strokeAnim, {
         toValue: 0,

@@ -12,6 +12,9 @@ import {
 } from "react-native";
 
 const API_URL = "https://4214-197-14-219-208.ngrok-free.app";
+//"http://localhost:8000" == web
+// OR
+//"https://4214-197-14-219-208.ngrok-free.app" == Mobile
 
 export default function AIPage() {
   const [messages, setMessages] = useState([]);

@@ -20,6 +20,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+
 embeddings = HuggingFaceEmbeddings(
     model_name="sentence-transformers/all-MiniLM-L6-v2"
 )
@@ -36,6 +38,7 @@ retriever = docsearch.as_retriever(
     search_kwargs={"k": 3}
 )
 
+# -------------------- LLM --------------------
 llm = Ollama(
     model="llama3:8b",
     temperature=0.1
@@ -46,6 +49,7 @@ qa = RetrievalQA.from_chain_type(
     retriever=retriever,
     return_source_documents=True
 )
+# -------------------- LLM --------------------
 
 class Question(BaseModel):
     question: str
@@ -53,7 +57,9 @@ class Question(BaseModel):
 MEDICAL_KEYWORDS = [
     "pain", "symptom", "disease", "health", "medicine", "diagnosis",
     "treatment", "fever", "heart", "oxygen", "temperature", "blood",
-    "infection", "illness", "fracture", "broken", "injury", "bpm"
+    "infection", "illness", "fracture", "broken", "broke", "break",
+    "injury", "sprain", "bpm", "pressure", "saturation",
+    "leg", "arm", "bone", "head", "chest", "stomach", "hurt", "emergency", "help"
 ]
 
 def is_medical_question(query: str) -> bool:
@@ -75,7 +81,8 @@ def is_ungrounded_answer(answer: str) -> bool:
     a = answer.lower()
     return any(t in a for t in triggers)
 
-MEDICAL_RECORD_PATH = "../Data/HealthRecordTest_week_2018-10-15.json"
+
+MEDICAL_RECORD_PATH = "/HealthRecordTest_week_2018-10-15.json"
 
 def load_record():
     with open(MEDICAL_RECORD_PATH, "r", encoding="utf-8") as f:
@@ -118,46 +125,45 @@ DATA:
 """
     return llm(prompt)
 
+
+
 @app.post("/ask")
 def ask(q: Question):
-    if not is_medical_question(q.question):
+
+
+    if is_medical_question(q.question):
+        # Use Pinecone + QA 
+        res = qa({"query": q.question})
+        answer = res["result"]
+
+
+        if is_ungrounded_answer(answer):
+            return {
+                "answer": "Sorry, I couldn’t find reliable medical information about this in my knowledge base.",
+                "sources": []
+            }
+
+
+        sources = []
+        for doc in res["source_documents"]:
+            sources.append({
+                "book": doc.metadata.get("source", "Unknown"),
+                "page": doc.metadata.get("page", "N/A")
+            })
+
         return {
-            "answer": "⚠️ I can only answer medical-related questions.",
-            "sources": []
+            "answer": answer,
+            "sources": sources
         }
 
-    res = qa({"query": q.question})
-    answer = res["result"]
-
-    if is_ungrounded_answer(answer):
+    else:
+        # Non-medical question = answer freely with LLM
+        prompt = f"Answer this question: {q.question}"
+        answer = llm(prompt)
         return {
             "answer": answer,
             "sources": []
         }
-
-    relevant_docs = []
-    for doc in res["source_documents"]:
-        score = doc.metadata.get("score", 1.0)
-        if score >= 0.75:
-            relevant_docs.append(doc)
-
-    if not relevant_docs:
-        return {
-            "answer": "Sorry, I couldn’t find reliable medical information about this in my knowledge base.",
-            "sources": []
-        }
-
-    sources = []
-    for doc in relevant_docs:
-        sources.append({
-            "book": doc.metadata.get("source", "Unknown"),
-            "page": doc.metadata.get("page", "N/A")
-        })
-
-    return {
-        "answer": answer,
-        "sources": sources
-    }
 
 @app.get("/diagnose")
 def diagnose_endpoint():
